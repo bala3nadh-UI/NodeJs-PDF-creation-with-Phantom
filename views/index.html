@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Bala</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <h1>Index HTML</h1>
+        <input id="enteredData" type="text">
+        <button id="button1" onclick="clicked()">Print PDF</button>
+        <p id="p1"></p>
+        <p id="dataPara"></p>
+        <script>
+            $(document).ready(function(){
+                $("#button1").click(function(){
+                    $("#p1").html("Button clicked to print PDF");
+                });
+            });
+
+            // Call our ajax endpoint on the server
+            function clicked() {
+                var data = {};
+					data.message = $('#enteredData').val();
+                    console.log(data.message);
+                $.ajax({
+                    url: '/printPdf',
+                    method: 'POST',
+                    contentType: "application/json",
+                    //contentType: "application/x-www-form-urlencoded",
+                    dataType: 'json',
+                    data: JSON.stringify(data)
+                }).done(function(data) {
+                    alert("Success..!");
+                    $("#dataPara").html("Data from API call: " + data.name);
+                }).fail(function(error) {
+                    alert("Error..!");
+                    alert(JSON.stringify(error));
+                });
+            }
+        </script>
+    </body>
+</html>
